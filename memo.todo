@@ -1,0 +1,62 @@
+
+資料架構:
+
+  - public為網站根目錄
+  - public/index.php讀取網頁的開端
+  - public下有css、js、image資料夾
+
+  - app存放所有程式檔
+
+  - app/libraries/core.php撰寫所有程式的基礎流程
+  - app/libraries/database.php 資料庫資料
+  - app/libraries/controller.php 最上層控制器
+
+  - app/controllers 存放所有頁面控制器
+  - app/models 存放所有資料表model
+  - app/views 存放所有頁面html
+  - app/helpers 存放協助函式
+  - app/config 存放設定檔
+  - app/bootstrap.php 設定定義變數
+
+  - app/.htaccess 設定讓app裡的檔案無法用瀏覽器讀取 @high
+
+初始設定:
+
+  1. 透過index.php決定路由導向
+    - public/.htaccess 設定rewriterule讓網址列不需打index.php
+    - index.php載入app/bootstrap.php檔案
+    - 根目錄設定.htaccess 設定rewriterule讓網址列不需打public直接導入該資料夾
+
+  2. 撰寫bootstrap.php
+    - 設定autoload(載入libraries/core.php、libraries/controller.php、libraries/database.php)
+    - 載入config/config.php 
+
+  3. 撰寫Core類別(libraries/core.php)
+    - 設定路由規則(/controller/method/params)＆載入主要控制器
+    - 宣告預設controller、預設method、預設params為陣列
+    - construct 呼叫getUrl，載入Controller類別，檢查method，取得param
+    - 函式getUrl:取得網址，分解成陣列以判斷載入的controller、method
+
+  4. index.php初始化Core類別
+    - 宣告core物件
+
+  5. 基礎設定config/config.php
+    - 用常數宣告
+    - 定義app root
+    - 定義url root
+    - 定義site name
+    - 定義資料庫連接資訊
+
+  6. 撰寫Database.php
+    - 定義PDO連線
+    - 撰寫資料庫方法:getAll, getSingle
+
+
+撰寫基本功能:
+
+  1. 撰寫app/controller.php
+    - load model method: 載入models資料夾的model.php，初始化model
+    - load view method: 載入views資料夾的樣板檔和載入樣版的值
+
+  2. 創建第一個view檔案
+
